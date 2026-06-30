@@ -1,0 +1,113 @@
+:root {
+  --sheet-bg: #eef5ec;
+  --sheet-line: rgba(49, 88, 58, 0.16);
+  --sheet-line-strong: rgba(49, 88, 58, 0.28);
+  --sheet-header: rgba(27, 94, 63, 0.1);
+  --tab-bg: #d8e7d2;
+  --tab-bg-active: #f7fbf3;
+  --tab-border: rgba(49, 88, 58, 0.32);
+  --tab-shadow: rgba(20, 76, 48, 0.16);
+  --tab-text: #183724;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #183724;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: var(--sheet-bg);
+  background-image:
+    linear-gradient(var(--sheet-header), var(--sheet-header)),
+    linear-gradient(90deg, var(--sheet-line-strong) 1px, transparent 1px),
+    linear-gradient(var(--sheet-line-strong) 1px, transparent 1px),
+    linear-gradient(90deg, var(--sheet-line) 1px, transparent 1px),
+    linear-gradient(var(--sheet-line) 1px, transparent 1px);
+  background-position:
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    0 0;
+  background-size:
+    100% 48px,
+    120px 100%,
+    100% 48px,
+    24px 100%,
+    100% 24px;
+}
+
+.landing-shell {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px 24px 96px;
+}
+
+.folder-tabs {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  width: min(100% - 32px, 520px);
+  padding: 0 16px;
+  transform: translateX(-50%);
+}
+
+.folder-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 132px;
+  min-height: 54px;
+  padding: 14px 28px 16px;
+  border: 1px solid var(--tab-border);
+  border-bottom: 0;
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(180deg, #e8f1e3 0%, var(--tab-bg) 100%);
+  box-shadow: 0 -10px 24px var(--tab-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  color: var(--tab-text);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 160ms ease, min-height 160ms ease, transform 160ms ease;
+}
+
+.folder-tab::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  width: 56px;
+  height: 18px;
+  border: 1px solid var(--tab-border);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: inherit;
+}
+
+.folder-tab:hover,
+.folder-tab:focus-visible,
+.folder-tab.is-active {
+  min-height: 64px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--tab-bg-active) 100%);
+  transform: translateY(-4px);
+}
+
+.folder-tab:focus-visible {
+  outline: 3px solid rgba(52, 168, 83, 0.38);
+  outline-offset: 4px;
+}
