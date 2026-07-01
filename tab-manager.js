@@ -42,6 +42,8 @@ const loadTabs = () => {
 };
 
 const saveTabs = (tabs) => localStorage.setItem(STORAGE_KEY, JSON.stringify(tabs));
+const isCurrentTab = (tab, index, currentPage = getCurrentPageKey()) =>
+  normalizePageKey(tab.href) === currentPage || (currentPage === "index.html" && index === 0);
 
 const promptForName = (tab) => {
   const nextName = prompt("Rename tab", tab.name)?.trim();
@@ -70,16 +72,37 @@ const openTabMenu = (event, tabs, index) => {
   const menu = document.createElement("div");
   menu.className = "tab-menu";
   menu.innerHTML = `
-    <button class="tab-menu-item" type="button">Rename tab</button>
+    <button class="tab-menu-item" type="button" data-tab-action="rename">Rename tab</button>
     <label class="tab-menu-color">
       <span>Tab color</span>
       <input type="color" value="${tab.color}" />
     </label>
+    <button class="tab-menu-item tab-menu-delete" type="button" data-tab-action="delete" ${tabs.length === 1 ? "disabled" : ""}>
+      Delete tab
+    </button>
   `;
 
-  menu.querySelector("button").addEventListener("click", () => {
+  menu.querySelector('[data-tab-action="rename"]').addEventListener("click", () => {
     tabs[index].name = promptForName(tab);
     saveTabs(tabs);
+    renderTabs();
+  });
+
+  menu.querySelector('[data-tab-action="delete"]').addEventListener("click", () => {
+    if (tabs.length === 1) return;
+
+    const currentPage = getCurrentPageKey();
+    const shouldNavigate = isCurrentTab(tab, index, currentPage);
+    const remainingTabs = tabs.filter((_, tabIndex) => tabIndex !== index);
+    const nextTab = remainingTabs[Math.min(index, remainingTabs.length - 1)];
+
+    saveTabs(remainingTabs);
+
+    if (shouldNavigate && nextTab) {
+      window.location.href = nextTab.href;
+      return;
+    }
+
     renderTabs();
   });
 
@@ -334,7 +357,7 @@ const renderTabs = () => {
     tabLink.style.setProperty("--tab-color", tab.color);
     tabLink.setAttribute("data-tab-id", tab.id);
 
-    if (normalizePageKey(tab.href) === currentPage || (currentPage === "index.html" && index === 0)) {
+    if (isCurrentTab(tab, index, currentPage)) {
       tabLink.classList.add("is-active");
       tabLink.setAttribute("aria-current", "page");
     }

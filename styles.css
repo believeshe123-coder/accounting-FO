@@ -112,7 +112,7 @@ body {
 .folder-tab:hover,
 .folder-tab:focus-visible {
   min-height: 64px;
-  background: linear-gradient(180deg, #ffffff 0%, var(--tab-bg-active) 100%);
+  background: linear-gradient(180deg, #ffffff 0%, var(--tab-bg-active) 38%, var(--tab-color, var(--tab-bg)) 100%);
   transform: translateY(-4px);
 }
 
@@ -120,7 +120,7 @@ body {
   z-index: 1;
   min-height: 68px;
   border-color: var(--tab-border-active);
-  background: linear-gradient(180deg, #ffffff 0%, var(--tab-bg-active) 58%, #dff0d9 100%);
+  background: linear-gradient(180deg, #ffffff 0%, var(--tab-bg-active) 42%, var(--tab-color, var(--tab-bg)) 100%);
   box-shadow: 0 -14px 30px rgba(31, 122, 77, 0.28), inset 0 5px 0 var(--tab-border-active);
   color: var(--tab-text-active);
   transform: translateY(-6px);
@@ -189,6 +189,15 @@ body {
 
 .tab-menu-item {
   cursor: pointer;
+}
+
+.tab-menu-delete {
+  color: #a32020;
+}
+
+.tab-menu-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .tab-menu-color input {
